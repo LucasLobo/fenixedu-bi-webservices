@@ -1,12 +1,6 @@
 package org.fenixedu.bi.controller.wsdm005;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fenixedu.academic.domain.Degree;
-import org.fenixedu.academic.domain.DegreeCurricularPlan;
-import org.fenixedu.bi.controller.wsdm005.mixins.DegreeCurricularPlanMixin;
-import org.fenixedu.bi.controller.wsdm005.mixins.DegreeMixin;
-import org.fenixedu.bi.utils.JacksonConfig;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,22 +24,8 @@ public class WSDM005 {
                     .body("ExternalId path parameter " + externalIdParameter + " returned no degree");
         }
 
-        Degree degree = (Degree) domainObject;
+        final Degree degree = (Degree) domainObject;
 
-        ObjectMapper marshaller = getMarshaller();
-
-        try {
-            return ResponseEntity.ok(marshaller.writeValueAsString(degree));
-        } catch (JsonProcessingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+        return ResponseEntity.ok(new DegreeWrapper(degree));
     }
-
-    private ObjectMapper getMarshaller() {
-        ObjectMapper marshaller = JacksonConfig.getObjectMapper();
-        marshaller.addMixIn(Degree.class, DegreeMixin.class);
-        marshaller.addMixIn(DegreeCurricularPlan.class, DegreeCurricularPlanMixin.class);
-        return marshaller;
-    }
-
 }
