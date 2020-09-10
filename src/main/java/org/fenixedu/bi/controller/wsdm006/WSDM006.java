@@ -1,10 +1,6 @@
 package org.fenixedu.bi.controller.wsdm006;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fenixedu.academic.domain.CompetenceCourse;
-import org.fenixedu.bi.controller.wsdm006.mixins.CompetenceCourseMixin;
-import org.fenixedu.bi.utils.JacksonConfig;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,19 +26,7 @@ public class WSDM006 {
 
         CompetenceCourse competenceCourse = (CompetenceCourse) domainObject;
 
-        ObjectMapper marshaller = getMarshaller();
+        return ResponseEntity.ok(new CompetenceCourseWrapper(competenceCourse));
 
-        try {
-            return ResponseEntity.ok(marshaller.writeValueAsString(competenceCourse));
-        } catch (JsonProcessingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
     }
-
-    private ObjectMapper getMarshaller() {
-        ObjectMapper marshaller = JacksonConfig.getObjectMapper();
-        marshaller.addMixIn(CompetenceCourse.class, CompetenceCourseMixin.class);
-        return marshaller;
-    }
-
 }
