@@ -1,10 +1,6 @@
 package org.fenixedu.bi.controller.wsdm002;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fenixedu.academic.domain.candidacy.IngressionType;
-import org.fenixedu.bi.controller.wsdm002.mixins.IngressionTypeMixin;
-import org.fenixedu.bi.utils.JacksonConfig;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,19 +26,6 @@ public class WSDM002 {
 
         IngressionType ingressionType = (IngressionType) domainObject;
 
-        ObjectMapper marshaller = getMarshaller();
-
-        try {
-            return ResponseEntity.ok(marshaller.writeValueAsString(ingressionType));
-        } catch (JsonProcessingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+        return ResponseEntity.ok(new IngressionTypeWrapper(ingressionType));
     }
-
-    private ObjectMapper getMarshaller() {
-        ObjectMapper marshaller = JacksonConfig.getObjectMapper();
-        marshaller.addMixIn(IngressionType.class, IngressionTypeMixin.class);
-        return marshaller;
-    }
-
 }
