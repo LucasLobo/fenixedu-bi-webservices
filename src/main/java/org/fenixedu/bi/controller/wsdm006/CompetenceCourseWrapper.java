@@ -16,7 +16,7 @@ public class CompetenceCourseWrapper {
 	public final String name;
 
 	@JsonProperty("ectsCredits")
-	public final double ectsCredits;
+	public final Double ectsCredits;
 
 	@JsonProperty("externalId")
 	public final String externalId;
