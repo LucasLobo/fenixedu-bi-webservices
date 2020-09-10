@@ -1,10 +1,6 @@
 package org.fenixedu.bi.controller.wsdm003;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fenixedu.academic.domain.student.RegistrationProtocol;
-import org.fenixedu.bi.controller.wsdm003.mixins.RegistrationProtocolMixin;
-import org.fenixedu.bi.utils.JacksonConfig;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,19 +26,7 @@ public class WSDM003 {
 
         RegistrationProtocol registrationProtocol = (RegistrationProtocol) domainObject;
 
-        ObjectMapper marshaller = getMarshaller();
-
-        try {
-            return ResponseEntity.ok(marshaller.writeValueAsString(registrationProtocol));
-        } catch (JsonProcessingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
-    }
-
-    private ObjectMapper getMarshaller() {
-        ObjectMapper marshaller = JacksonConfig.getObjectMapper();
-        marshaller.addMixIn(RegistrationProtocol.class, RegistrationProtocolMixin.class);
-        return marshaller;
+        return ResponseEntity.ok(new RegistrationProtocolWrapper(registrationProtocol));
     }
 
 }
