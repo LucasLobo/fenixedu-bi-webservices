@@ -1,12 +1,6 @@
 package org.fenixedu.bi.controller.wsdm007;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.fenixedu.academic.domain.Person;
 import org.fenixedu.academic.domain.Professorship;
-import org.fenixedu.bi.controller.wsdm007.mixins.PersonMixin;
-import org.fenixedu.bi.controller.wsdm007.mixins.ProfessorshipMixin;
-import org.fenixedu.bi.utils.JacksonConfig;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,20 +26,9 @@ public class WSDM007 {
 
         Professorship professorship = (Professorship) domainObject;
 
-        ObjectMapper marshaller = getMarshaller();
+        return ResponseEntity.ok(new ProfessorshipWrapper(professorship));
 
-        try {
-            return ResponseEntity.ok(marshaller.writeValueAsString(professorship));
-        } catch (JsonProcessingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
     }
 
-    private ObjectMapper getMarshaller() {
-        ObjectMapper marshaller = JacksonConfig.getObjectMapper();
-        marshaller.addMixIn(Professorship.class, ProfessorshipMixin.class);
-        marshaller.addMixIn(Person.class, PersonMixin.class);
-        return marshaller;
-    }
 
 }
