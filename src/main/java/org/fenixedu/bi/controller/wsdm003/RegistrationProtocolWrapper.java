@@ -1,6 +1,6 @@
 package org.fenixedu.bi.controller.wsdm003;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.fenixedu.academic.domain.student.RegistrationProtocol;
 import org.fenixedu.academic.domain.student.RegistrationProtocol_Base;
 import org.fenixedu.commons.i18n.LocalizedString;

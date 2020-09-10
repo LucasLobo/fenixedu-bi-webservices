@@ -1,6 +1,6 @@
 package org.fenixedu.bi.controller.wsdm007;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.fenixedu.academic.domain.*;
 import org.fenixedu.academic.domain.person.IDDocumentType;
 import pt.ist.fenixframework.core.AbstractDomainObject;

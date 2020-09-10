@@ -1,6 +1,6 @@
 package org.fenixedu.bi.controller.wsdm006;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.fenixedu.academic.domain.CompetenceCourse;
 import org.fenixedu.academic.domain.CompetenceCourse_Base;
 import pt.ist.fenixframework.core.AbstractDomainObject;
